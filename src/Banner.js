@@ -8,17 +8,41 @@ function Banner() {
     useEffect(() => {
         async function fetchData() {
             const request = await axios.get(requests.fetchNetflixOriginals);
-            console.table(request.data.results[Math.floor(Math.random() * request.data.results.length - 1)
-            ]);
+            setMovie(
+                request.data.results[
+                    Math.floor(Math.random() * request.data.results.length - 1)
+                ]
+            );
+            return request;
         }
         fetchData();
     }, []);
 
+    console.log(movie);
+
     return (
-        <header> {/* <<< background image */}
-            {/* title */}
-            {/* div > 2 buttons */}
-            {/* desc */}
+        <header className="banner"
+            style={{
+                backgroundSize: "cover",
+                backgroundImage: `url{
+                    "https://image.tmdb.org/t/p/original/${movie?.backdrop_path}"
+                }`,
+                backgroundPosition: "center center",
+            }}
+        >
+            <div className="div banner__contents">
+                {/* <<< background image */}
+                <h1>{movie?.title || movie?.name || movie?.original_name}</h1>
+                <div className="div banner__buttons">
+                    <button className="banner__button">
+                        Play
+                    </button>
+                    <button className="banner__button">
+                        My List
+                    </button>
+                </div>
+                {/* desc */}
+            </div>
         </header>
     )
 }
